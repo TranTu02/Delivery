@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import Counter from "./counter.js";
 
 const orderSchema = new mongoose.Schema({
   orderId: {
@@ -45,8 +46,8 @@ const orderSchema = new mongoose.Schema({
     address: { type: String },
   },
   deliveryPersonLocation: {
-    latitude: { type: Number, required: true },
-    longitude: { type: Number, required: true },
+    latitude: { type: Number },
+    longitude: { type: Number },
     address: { type: String },
   },
   status: {
@@ -55,10 +56,11 @@ const orderSchema = new mongoose.Schema({
     default: "available",
   },
   totalPrice: { type: Number, required: true },
-  createAt: { type: Date, default: Date.now },
+  createAt: { type: Date, default: Date.now }, // Chỉnh lại "createAt" thành "createdAt" cho đúng ngữ pháp.
   updatedAt: { type: Date, default: Date.now },
 });
 
+// Function để lấy giá trị tiếp theo cho orderId
 async function getNextSequenceValue(sequenceName) {
   const sequenceDocument = await Counter.findOneAndUpdate(
     {
@@ -76,10 +78,11 @@ async function getNextSequenceValue(sequenceName) {
   return sequenceDocument.sequence_value;
 }
 
+// Trước khi lưu đơn hàng, tự động tạo orderId
 orderSchema.pre("save", async function (next) {
   if (this.isNew) {
     const sequenceValue = await getNextSequenceValue("orderId");
-    this.orderID = `ORDR${sequenceValue.toString().padStart(5, "0")}`;
+    this.orderId = `ORDR${sequenceValue.toString().padStart(5, "0")}`; // Sửa lại orderID thành orderId
   }
   next();
 });

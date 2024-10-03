@@ -38,7 +38,7 @@ const deliveryPartnerSchema = new mongoose.Schema({
   ...userSchema.obj,
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  phone: { type: String, required: true }, // Đã sửa "pohone" thành "phone"
+  phone: { type: Number, required: true }, // Đã sửa "pohone" thành "phone"
   role: { type: String, enum: ["DeliveryPartner"], default: "DeliveryPartner" },
   liveLocation: {
     latitude: { type: Number },
@@ -56,7 +56,7 @@ const adminSchema = new mongoose.Schema({
   ...userSchema.obj,
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  phone: { type: String, required: true }, // Đã sửa "pohone" thành "phone"
+  phone: { type: Number, required: true }, // Đã sửa "pohone" thành "phone"
   role: { type: String, enum: ["Admin"], default: "Admin" },
 });
 
