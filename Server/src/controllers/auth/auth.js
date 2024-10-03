@@ -35,14 +35,14 @@ export const loginCustomer = async (req, reply) => {
       customer,
     });
   } catch (error) {
-    return reply.status(500).send({ message: "Am error occurred", error });
+    return reply.status(500).send({ message: "An error occurred", error });
   }
 };
 
 export const loginDeliveryPartner = async (req, reply) => {
   try {
     const { email, password } = req.body;
-    const deliveryPartner = await DeliveryPartner.findOne({ phone });
+    const deliveryPartner = await DeliveryPartner.findOne({ email });
     if (!deliveryPartner) {
       return reply.status(404).send({ message: "Delivery Partner not found" });
     }
@@ -62,7 +62,7 @@ export const loginDeliveryPartner = async (req, reply) => {
       deliveryPartner,
     });
   } catch (error) {
-    return reply.status(500).send({ message: "Am error occurred", error });
+    return reply.status(500).send({ message: "An error occurred", error });
   }
 };
 
@@ -107,10 +107,10 @@ export const fetchUser = async (req, reply) => {
     const { userId, role } = req.user;
     let user;
 
-    if (decoded.role === "Customer") {
-      user = await Customer.findById(decode.userId);
-    } else if (decode.role == "DeliveryPartner") {
-      user = await DeliveryPartner.findById(decode.userId);
+    if (role === "Customer") {
+      user = await Customer.findById(userId);
+    } else if (role == "DeliveryPartner") {
+      user = await DeliveryPartner.findById(userId);
     } else {
       return reply.status(403).send({ message: "Invalid Role" });
     }
