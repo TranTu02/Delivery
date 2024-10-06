@@ -1,10 +1,10 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 
 const branchSchema = new mongoose.Schema({
   name: { type: String, required: true },
   liveLocation: {
-    latitude: { type: Number },
-    longitude: { type: Number },
+    latitude: { type: Number, required: true },
+    longitude: { type: Number, required: true },
   },
   address: { type: String },
   deliveryPartners: [
